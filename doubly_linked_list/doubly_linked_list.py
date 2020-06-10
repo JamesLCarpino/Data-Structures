@@ -155,7 +155,7 @@ class DoublyLinkedList:
     def move_to_front(self, node):
         # need to take node and reasign it to the head
         # takes in
-        move_node = ListNode(node)
+        move_node = ListNode(node, None, None)
         self.head = move_node.insert_before(0)
 
     """Removes the input node from its current spot in the 
@@ -179,46 +179,41 @@ class DoublyLinkedList:
 
         # last.next = first
         # return move_node
-        self.head = node.insert_after(-1)
+        move_node = ListNode(node, None, None)
+        self.head = move_node.insert_before(-1)
 
     """Removes a node from the list and handles cases where
     the node was the head or the tail"""
 
     def delete(self, node):
-        pass
-        # current = self.head
-        # while current:
-        #     if current == node and current == self.head:
-        #         # if the self.head doesn't have anything after it
-        #         if not current.next:
-        #             current = None
-        #             self.head = None
-        #             return
-        #         # handles if self.head points to another node
-        #         else:
-        #             nxt = current.next
-        #             current.next = None
-        #             nxt.prev = None
-        #             current = None
-        #             self.head = nxt
-        #             return
-        #     elif current == node:
-        #         if current.next:
-        #             nxt = current.next
-        #             prev = current.prev
-        #             prev.next = nxt
-        #             nxt.prev = prev
-        #             current.next = None
-        #             current.prev = None
-        #             current = None
-        #             return
-        #         else:
-        #             prev = current.prev
-        #             prev.next = None
-        #             current.prev = None
-        #             current = None
-        #             return
-        #     current = current.next
+        # decriment the length
+        self.length -= 1
+
+        # if empty
+        if not self.head and not self.tail:
+            # error todo
+            return
+        # if head and tail
+        if self.head == self.tail:
+            # this means only one item in list
+            # we dont need to look or mess with node, just get rid of pointers to head and tail
+            self.head = None
+            self.tail = None
+        # if head
+        elif self.head == node:
+            self.head = self.head.next
+            # delete method
+            node.delete()
+            # this gets rid of the node
+
+        # if tail
+        elif self.tail == node:
+            self.tail = self.tail.prev
+            node.delete()
+
+        # otherwise
+        else:
+            node.delete()
 
     """Returns the highest value currently in the list"""
 
