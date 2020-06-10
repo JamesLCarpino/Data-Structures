@@ -8,6 +8,12 @@ class ListNode:
         self.prev = prev
         self.next = next
 
+    def getValue(self):
+        return self.value
+
+    def getNext(self):
+        return self.next
+
     """Wrap the given value in a ListNode and insert it
     after this node. Note that this node could already
     have a next node it is point to."""
@@ -148,15 +154,32 @@ class DoublyLinkedList:
 
     def move_to_front(self, node):
         # need to take node and reasign it to the head
-
-        pass
+        # takes in
+        move_node = ListNode(node)
+        self.head = move_node.insert_before(0)
 
     """Removes the input node from its current spot in the 
     List and inserts it as the new tail node of the List."""
 
     def move_to_end(self, node):
         # need to take node and reasign it to the tail
-        pass
+        # move_node = ListNode(node)
+        # if move_node == None or (move_node).next == None:
+        #     return None
+
+        # # initialize first and last pointers
+        # first = move_node
+        # last = move_node
+
+        # while last.next != None:
+        #     last = last.next
+
+        # move_node = first.next
+        # first.next = None
+
+        # last.next = first
+        # return move_node
+        self.head = node.insert_after(-1)
 
     """Removes a node from the list and handles cases where
     the node was the head or the tail"""
@@ -201,3 +224,14 @@ class DoublyLinkedList:
 
     def get_max(self):
         pass
+        if self.head is None:
+            return None
+
+        max_so_far = self.head.getValue()
+        current = self.head.getNext()
+
+        while current is not None:
+            if current.getValue() > max_so_far:
+                max_so_far = current.getValue()
+            current = current.getNext()
+        return max_so_far
