@@ -155,8 +155,9 @@ class DoublyLinkedList:
     def move_to_front(self, node):
         # need to take node and reasign it to the head
         # takes in
-        move_node = ListNode(node, None, None)
-        self.head = move_node.insert_before(0)
+        value = node.value
+        self.delete(node)
+        self.add_to_head(value)
 
     """Removes the input node from its current spot in the 
     List and inserts it as the new tail node of the List."""
@@ -179,8 +180,11 @@ class DoublyLinkedList:
 
         # last.next = first
         # return move_node
-        move_node = ListNode(node, None, None)
-        self.head = move_node.insert_before(-1)
+        # move_node = ListNode(node, None, None)
+        # self.tail = move_node.insert_after(-1)
+        value = node.value
+        self.delete(node)
+        self.add_to_tail(value)
 
     """Removes a node from the list and handles cases where
     the node was the head or the tail"""
