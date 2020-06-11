@@ -93,12 +93,81 @@ class BSTNode:
         if self.right:
             self.right.for_each(fn)
 
+    def depth_first_for_each(self, fn):
+        # this method specifically does want to traverse every tree node
+        # this has to call the fn on self.value
+        fn(self.value)
+
+        # how do we propagate to all the other nodes in the tree?
+        # is there a left child?
+        if self.left:
+            # if yes, then call its `for_each` with the same fn
+            self.left.depth_first_for_each(fn)
+            # is there a right child?
+            if self.right:
+                # if yes, then call its `for_each` with the same fn
+                self.right.depth_first_for_each(fn)
+
+    def iter_depth_first_for_each(self, fn):
+        # with depth-first traversal, there's a certain order to when we visit nodes
+        # what's that order?
+        # init a stack to keep track of the order of nodes we visited
+        stack = []
+        # add the first node to our stack
+        stack.append(self)
+        # continue traversing until our stack is empty
+        while len(stack) > 0:
+            # pop off the stack
+            current_node = stack.pop()
+            # add its children to the stack
+            # add the right child first and left child second
+            # to ensure that left is popped off the stack first
+            if current_node.right:
+                stack.append(current_node.right)
+                if current_node.left:
+                    stack.append(current_node.left)
+                    # call the fn function on self.value
+                    fn(self.value)
+
+    def iter_breadth_first_search(self, fn):
+        # breadth first traversal follows FIFO ordering of its nodes
+        # init a deque
+        q = deque()
+        # add the first node to our q
+        q.append(self)
+
+        while len(q) > 0:
+            current_node = q.popleft()
+            if current_node.left:
+                q.append(current_node.left)
+                if current_node.right:
+                    q.append(current_node.right)
+                    fn(self.value)
+
     # Part 2 -----------------------
 
     # Print all the values in order from low to high
     # Hint:  Use a recursive, depth first traversal
     def in_order_print(self, node):
-        pass
+        # print(self.value)
+
+        if node:
+
+            node.in_order_print(node.left)
+            print(node.value)
+            node.in_order_print(node.right)
+
+        # if self.left:
+        #     self.left.in_order_print(self)
+        # print(self.value)
+        # if self.right:
+        #     self.right.in_order_print(self)
+
+        # if node.left:
+        #     node.in_order_print(node.left)
+        # print(node.value)
+        # if node.right:
+        #     node.in_order_print(node.right)
 
     # Print the value of every node, starting with the given node,
     # in an iterative breadth first traversal
