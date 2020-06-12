@@ -9,6 +9,7 @@ This part of the project comprises two days:
 2. Implement the `in_order_print`, `bft_print`, and `dft_print` methods
    on the BSTNode class.
 """
+from collections import deque
 
 
 class BSTNode:
@@ -171,13 +172,51 @@ class BSTNode:
 
     # Print the value of every node, starting with the given node,
     # in an iterative breadth first traversal
+
     def bft_print(self, node):
-        pass
+        que = deque()
+        # add first node to the que
+        que.append(node)
+
+        # loop through the queue
+        while len(que) > 0:
+            # pop the first node out
+            current_node = que.popleft()
+            if current_node.left:
+                que.append(current_node.left)
+            if current_node.right:
+                que.append(current_node.right)
+            print(current_node.value)
+
+        # --------------------------#
+        # while queue:
+        #     node = queue.pop(0)
+        #     if node not in explored:
+        #         explored.append(node)
+        #         neighbors = self[node.value]
+        #         for neighbor in neighbors:
+        #             queue.append(neighbor)
+        # return explored
 
     # Print the value of every node, starting with the given node,
     # in an iterative depth first traversal
     def dft_print(self, node):
-        pass
+        stack = []
+        # add the first node to our stack
+        stack.append(node)
+        # continue traversing until our stack is empty
+        while len(stack) > 0:
+            # pop off the stack
+            current_node = stack.pop()
+            # add its children to the stack
+            # add the right child first and left child second
+            # to ensure that left is popped off the stack first
+            if current_node.left:
+                stack.append(current_node.left)
+            if current_node.right:
+                stack.append(current_node.right)
+                # call the fn function on self.value
+            print(current_node.value)
 
     # Stretch Goals -------------------------
     # Note: Research may be required
